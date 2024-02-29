@@ -11,12 +11,12 @@ import java.io.*;
  * either by their tag or ID, update a player's data, generate current power rankings, and show all competitors in the database.
  */
 public class SmashUltimateDatabase {
-    ArrayList<competitor> players = new ArrayList<competitor>();
+    competitorDataBase dataBase = new competitorDataBase();
 
     public static void main(String[] args) throws IOException{
-        SmashUltimateDatabase instance = new SmashUltimateDatabase();
-        Scanner input = new Scanner(System.in);
         String fileName;
+        competitorDataBase instance = new competitorDataBase();
+        Scanner input = new Scanner(System.in);
 
         System.out.print("Please enter name of file: ");
         fileName = input.nextLine();
@@ -44,11 +44,20 @@ public class SmashUltimateDatabase {
                     char removalOption = input.nextLine().charAt(0);
                     if(removalOption == 49)
                     {
-                        instance.removeCompetitorPlayerTag();
+                        String playerRemoveTag;
+
+                        System.out.print("Enter player tag for removal: ");
+                        playerRemoveTag = input.nextLine();
+                        instance.removeCompetitorPlayerTag(playerRemoveTag);
+                        instance.printPlayers();
                     }
                     else if(removalOption == 50)
                     {
-                        instance.removeCompetitorPlayerId();
+                        int playerRemoveId;
+                        System.out.print("Enter player ID for removal: ");
+                        playerRemoveId = Integer.parseInt(input.nextLine());
+                        instance.removeCompetitorPlayerId(playerRemoveId);
+                        instance.printPlayers();
                     }
                     else
                     {
@@ -58,11 +67,55 @@ public class SmashUltimateDatabase {
 
                 case 51:
                     System.out.println("Option 3 selected");
-                    instance.updatePlayer();
+                    String playerTag;
+
+                    System.out.print("Enter the tag of the player to update: ");
+                    playerTag = input.nextLine();
+                    boolean foundPlayer = false;
+
+                    for(competitor i : instance.players)
+                    {
+                        if(i.playerTag.equals(playerTag))
+                        {
+                            foundPlayer = true;
+                            String garbage;
+
+                            String updatedPlayerTag;
+                            int wins;
+                            int losses;
+                            String lastPlacement;
+                            System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
+
+                            System.out.print("Enter updated player tag: ");
+                            updatedPlayerTag = input.nextLine();
+                            System.out.print("\nEnter wins: ");
+                            wins = input.nextInt();
+                            System.out.print("\nEnter losses: ");
+                            losses = input.nextInt();
+                            System.out.print("\nEnter last placement: ");
+                            garbage = input.nextLine();
+                            lastPlacement = input.nextLine();
+
+                            competitor tempPlayer = new competitor(updatedPlayerTag, wins, losses, lastPlacement);
+                            instance.updatePlayer(playerTag, tempPlayer);
+                            instance.printPlayers();
+                            break;
+                        }
+                    }
+                    if(!foundPlayer)
+                    {
+                        System.out.println("PlayerTag not found\n");
+                    }
                     break;
 
                 case 52:
-                    instance.generatePowerRankings();
+                    ArrayList<competitor> powerRankings = instance.generatePowerRankings();
+                    System.out.println("Current Power Rankings\n________________________");
+                    for(int i = 0; i < powerRankings.size(); i++)
+                    {
+                        System.out.println("#" + (i + 1) + ": " + powerRankings.get(i).playerTag);
+                    }
+                    System.out.println("_________________________");
                     break;
 
                 case 53:
@@ -77,222 +130,4 @@ public class SmashUltimateDatabase {
         }
     }
 
-    /*
-     * method: removeCompetitorPlayerTag
-     * parameters: none
-     * return: none
-     * purpose: removes player from database based on player's tag
-     */
-    void removeCompetitorPlayerTag()
-    {
-        Scanner input = new Scanner(System.in);
-        String playerRemoveTag;
-
-        System.out.print("Enter player tag for removal: ");
-        playerRemoveTag = input.nextLine();
-
-        for(competitor i : players)
-        {
-            if(i.playerTag.equals(playerRemoveTag))
-            {
-                System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
-                players.remove(i);
-                printPlayers();
-                return;
-            }
-        }
-        System.out.println("PlayerTag not found\n");
-    }
-
-    /*
-     * method: removeCompetitorPlayerId
-     * parameters: none
-     * return: none
-     * purpose: removes player from database based on player's ID
-     */
-    void removeCompetitorPlayerId()
-    {
-        Scanner input = new Scanner(System.in);
-        int playerRemoveId;
-
-        System.out.print("Enter player ID for removal: ");
-        playerRemoveId = input.nextInt();
-
-        for(competitor i : players)
-        {
-            if(i.playerId == playerRemoveId)
-            {
-                System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
-                players.remove(i);
-                printPlayers();
-                return;
-            }
-        }
-        System.out.println("PlayerTag not found\n");
-    }
-
-    /*
-     * method: updatePlayer
-     * parameters: none
-     * return: none
-     * purpose: updates an existing player in the database, will ask user for data members
-     * playerTag, wins, losses, and lastPlacement
-     */
-    void updatePlayer()
-    {
-        Scanner input = new Scanner(System.in);
-        String playerTag;
-
-        System.out.print("Enter the tag of the player to update: ");
-        playerTag = input.nextLine();
-
-        for(competitor i : players)
-        {
-            if(i.playerTag.equals(playerTag))
-            {
-                String garbage;
-
-                String updatedPlayerTag;
-                int wins;
-                int losses;
-                String lastPlacement;
-                System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
-
-                System.out.print("Enter player tag: ");
-                updatedPlayerTag = input.nextLine();
-                System.out.print("\nEnter wins: ");
-                wins = input.nextInt();
-                System.out.print("\nEnter losses: ");
-                losses = input.nextInt();
-                System.out.print("\nEnter last placement: ");
-                garbage = input.nextLine();
-                lastPlacement = input.nextLine();
-
-                competitor tempPlayer = new competitor(updatedPlayerTag, wins, losses, lastPlacement);
-                players.remove(i);
-                players.add(tempPlayer);
-                printPlayers();
-                return;
-            }
-        }
-        System.out.println("PlayerTag not found\n");
-    }
-
-    /*
-     * method: generatePowerRankings
-     * parameters: none
-     * return: none
-     * purpose: Generates current power rankings based off of win/loss ratio
-     */
-    void generatePowerRankings()
-    {
-        ArrayList<competitor> powerRanking = players;
-
-        for(int i = 0; i < players.size(); i++)
-        {
-            for(int j = powerRanking.size() - 1; j > i; j--)
-            {
-                if(powerRanking.get(i).ratio < powerRanking.get(j).ratio)
-                {
-                    competitor temp = powerRanking.get(i);
-                    powerRanking.set(i, powerRanking.get(j));
-                    powerRanking.set(j, temp);
-                }
-            }
-        }
-
-        System.out.println("Current Power Rankings\n________________________");
-        for(int i = 0; i < powerRanking.size(); i++)
-        {
-            System.out.println("#" + (i + 1) + ": " + powerRanking.get(i).playerTag);
-        }
-        System.out.println("_________________________");
-    }
-
-    /*
-     * method: printPlayers
-     * parameters: none
-     * return: none
-     * purpose: Prints current database of all players showing all data members for each player
-     */
-    void printPlayers()
-    {
-        System.out.println("Printing current Data base.");
-        System.out.println("---------------------------------------------");
-        for(competitor i: players)
-        {
-            System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
-        }
-        System.out.println("---------------------------------------------");
-        System.out.println("Done!");
-    }
-
-
-    /*
-     * method: readPlayers
-     * parameters: none
-     * return: none
-     * purpose: reads in user given .txt file and creates competitor objects for ArrayList players
-     */
-    void readPlayers(String fileName) throws IOException
-    {
-        Scanner fileIn = new Scanner(new File("C:\\Users\\Vipertoo\\Desktop\\CEN 3024\\projects\\SmashUltiDataBase\\src\\" + fileName));
-
-        System.out.println("Loading collection");
-
-        while(fileIn.hasNextLine())
-        {
-            String playerTag;
-            int wins;
-            int losses;
-            String lastPlacement;
-
-            int inputLength;
-            int i = 0;
-            String forLoopInput = "";
-
-            String collectionInput = fileIn.nextLine();
-            inputLength = collectionInput.length();
-
-            for(; collectionInput.charAt(i) != ','; i++)
-            {
-                forLoopInput = forLoopInput + collectionInput.charAt(i);
-            }
-            playerTag = forLoopInput;
-            forLoopInput = "";
-            i++;
-
-            for(; collectionInput.charAt(i) != ','; i++)
-            {
-                forLoopInput = forLoopInput + collectionInput.charAt(i);
-            }
-            wins = Integer.parseInt(forLoopInput);
-            forLoopInput = "";
-            i++;
-
-            for(; collectionInput.charAt(i) != ','; i++)
-            {
-                forLoopInput = forLoopInput + collectionInput.charAt(i);
-            }
-            losses = Integer.parseInt(forLoopInput);
-            forLoopInput = "";
-            i++;
-
-            for(; i < inputLength; i++)
-            {
-                forLoopInput = forLoopInput + collectionInput.charAt(i);
-            }
-            lastPlacement = forLoopInput;
-            forLoopInput = "";
-            i++;
-
-            competitor tempPlayer = new competitor(playerTag, wins, losses, lastPlacement);
-            players.add(tempPlayer);
-        }
-
-        fileIn.close();
-
-        System.out.println("Done!\n");
-
-    }
 }
