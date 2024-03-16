@@ -47,4 +47,40 @@ public class competitor {
 
         return newPlayerId;
     }
+
+    String getPlayerTag()
+    {
+        return playerTag;
+    }
+
+    int getWins()
+    {
+        return wins;
+    }
+
+    int getLosses()
+    {
+        return losses;
+    }
+
+    float getRatio()
+    {
+        return ratio;
+    }
+
+    boolean isActiveStatus()
+    {
+        return activeStatus;
+    }
+
+    String getLastPlacement()
+    {
+        return lastPlacement;
+    }
+
+    int getPlayerId()
+    {
+        return playerId;
+    }
+
 }

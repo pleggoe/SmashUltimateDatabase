@@ -11,17 +11,32 @@ import java.io.*;
  * either by their tag or ID, update a player's data, generate current power rankings, and show all competitors in the database.
  */
 public class SmashUltimateDatabase {
-    competitorDataBase dataBase = new competitorDataBase();
+
 
     public static void main(String[] args) throws IOException{
         String fileName;
         competitorDataBase instance = new competitorDataBase();
         Scanner input = new Scanner(System.in);
+        boolean fileExitCon = true;
 
-        System.out.print("Please enter name of file: ");
-        fileName = input.nextLine();
-        instance.readPlayers(fileName);
-        instance.printPlayers();
+        while(fileExitCon)
+        {
+            System.out.print("Please enter name of file: ");
+            fileName = input.nextLine();
+            File checkFile = new File(fileName);
+            if(checkFile.exists())
+            {
+                fileExitCon = false;
+                System.out.println("Loading collection");
+                instance.readPlayers(fileName);
+                System.out.println("Done!\n");
+                instance.printPlayers();
+            }
+            else
+            {
+                System.out.println("Error: file not found");
+            }
+        }
 
         char menuOption;
         boolean exitCon = true;
@@ -49,15 +64,20 @@ public class SmashUltimateDatabase {
                         System.out.print("Enter player tag for removal: ");
                         playerRemoveTag = input.nextLine();
                         instance.removeCompetitorPlayerTag(playerRemoveTag);
-                        instance.printPlayers();
                     }
                     else if(removalOption == 50)
                     {
                         int playerRemoveId;
                         System.out.print("Enter player ID for removal: ");
-                        playerRemoveId = Integer.parseInt(input.nextLine());
-                        instance.removeCompetitorPlayerId(playerRemoveId);
-                        instance.printPlayers();
+                        try
+                        {
+                            playerRemoveId = Integer.parseInt(input.nextLine());
+                            instance.removeCompetitorPlayerId(playerRemoveId);
+                        }
+                        catch (NumberFormatException nfe)
+                        {
+                            System.out.println("Number not inputted, returning to main menu\n");
+                        }
                     }
                     else
                     {
@@ -81,7 +101,7 @@ public class SmashUltimateDatabase {
                             String garbage;
 
                             String updatedPlayerTag;
-                            int wins;
+                            int wins = 0;
                             int losses;
                             String lastPlacement;
                             System.out.println(i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
@@ -89,9 +109,27 @@ public class SmashUltimateDatabase {
                             System.out.print("Enter updated player tag: ");
                             updatedPlayerTag = input.nextLine();
                             System.out.print("\nEnter wins: ");
-                            wins = input.nextInt();
+                            try
+                            {
+                                wins = input.nextInt();
+                            }
+                            catch (InputMismatchException ime)
+                            {
+                                System.out.println("Number not inputted, returning to main menu\n");
+                                garbage = input.nextLine();
+                                break;
+                            }
                             System.out.print("\nEnter losses: ");
-                            losses = input.nextInt();
+                            try
+                            {
+                                losses = input.nextInt();
+                            }
+                            catch (InputMismatchException ime)
+                            {
+                                System.out.println("Number not inputted, returning to main menu\n");
+                                garbage = input.nextLine();
+                                break;
+                            }
                             System.out.print("\nEnter last placement: ");
                             garbage = input.nextLine();
                             lastPlacement = input.nextLine();

@@ -15,9 +15,7 @@ public class competitorDataBase {
     void readPlayers(String fileName) throws IOException
     {
         players = new ArrayList<competitor>();
-        Scanner fileIn = new Scanner(new File("C:\\Users\\Vipertoo\\Desktop\\CEN 3024\\projects\\SmashUltiDataBase\\src\\" + fileName));
-
-        System.out.println("Loading collection");
+        Scanner fileIn = new Scanner(new File(fileName));
 
         while(fileIn.hasNextLine())
         {
@@ -70,9 +68,6 @@ public class competitorDataBase {
         }
 
         fileIn.close();
-
-        System.out.println("Done!\n");
-
     }
 
     /*
@@ -93,6 +88,16 @@ public class competitorDataBase {
         System.out.println("Done!");
     }
 
+    String printGUIPlayers()
+    {
+        String retString = "";
+        for(competitor i: players)
+        {
+            retString += "\n" + i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement;
+        }
+        return retString;
+    }
+
 
     /*
      * method: removeCompetitorPlayerTag
@@ -108,10 +113,11 @@ public class competitorDataBase {
             {
                 System.out.println("Player removed: " + i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
                 players.remove(i);
+                printPlayers();
                 return;
             }
         }
-        System.out.println("PlayerTag not found\n");
+        System.out.println("Player Tag not found\n");
     }
 
     /*
@@ -128,10 +134,11 @@ public class competitorDataBase {
             {
                 System.out.println("Player removed: " + i.playerTag + ", player ID: " + i.playerId + ", wins: " + i.wins + ", losses: " + i.losses + ", W/L ratio: " + i.ratio + ", active status: " + i.activeStatus + ", last placement: " + i.lastPlacement);
                 players.remove(i);
+                printPlayers();
                 return;
             }
         }
-        System.out.println("PlayerTag not found\n");
+        System.out.println("Player ID not found\n");
     }
 
     /*
@@ -178,5 +185,31 @@ public class competitorDataBase {
         }
 
         return powerRanking;
+    }
+
+    String generatePowerRankingsGUI()
+    {
+        ArrayList<competitor> powerRanking = players;
+        String retString = "";
+
+        for(int i = 0; i < players.size(); i++)
+        {
+            for(int j = powerRanking.size() - 1; j > i; j--)
+            {
+                if(powerRanking.get(i).ratio < powerRanking.get(j).ratio)
+                {
+                    competitor temp = powerRanking.get(i);
+                    powerRanking.set(i, powerRanking.get(j));
+                    powerRanking.set(j, temp);
+                }
+            }
+        }
+
+        for(int i = 0; i < powerRanking.size(); i++)
+        {
+            retString += "\n" + "#" + (i + 1) + ": " + powerRanking.get(i).playerTag;
+        }
+
+        return retString;
     }
 }
