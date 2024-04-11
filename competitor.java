@@ -1,8 +1,8 @@
 
-/*
- * Peyton Leggoe
- * competitor.java
- * 2/19/2024
+/**
+ * Peyton Leggoe,
+ * CEN 3042C-26663,
+ * 2/19/2024.
  * The class competitor is used to create an object competitor for use in the Smash Ultimate Database program.
  * Competitor houses data members playerTag, wins, losses, ratio, activeStatus, lastPlacement, and playerId.
  * A default constructor was made with empty strings and sets the id to 0 by default.
@@ -16,16 +16,13 @@ public class competitor {
     String lastPlacement;
     int playerId;
 
-    competitor() {
-        playerTag = "";
-        wins = 0;
-        losses = 0;
-        ratio = 0;
-        activeStatus = false;
-        lastPlacement = "";
-        playerId = 0;
-    }
-
+    /**
+     * Constructor method which generates object competitor
+     * @param playerTag Tag of the competitor
+     * @param wins Recorded wins of the competitor
+     * @param losses Recorded losses of the competitor
+     * @param lastPlacement Recorded lastPlacement of the competitor
+     */
     competitor(String playerTag, int wins, int losses, String lastPlacement) {
         this.playerTag = playerTag;
         this.wins = wins;
@@ -36,6 +33,11 @@ public class competitor {
         playerId = generatePlayerId(playerTag);
     }
 
+    /**
+     * Generates a player ID for the given player tag
+     * @param playerTag Tag of the player which is used for ID generation
+     * @return Returns the generated ID for the player
+     */
     int generatePlayerId(String playerTag)
     {
         int newPlayerId = 0;
@@ -46,41 +48,6 @@ public class competitor {
         }
 
         return newPlayerId;
-    }
-
-    String getPlayerTag()
-    {
-        return playerTag;
-    }
-
-    int getWins()
-    {
-        return wins;
-    }
-
-    int getLosses()
-    {
-        return losses;
-    }
-
-    float getRatio()
-    {
-        return ratio;
-    }
-
-    boolean isActiveStatus()
-    {
-        return activeStatus;
-    }
-
-    String getLastPlacement()
-    {
-        return lastPlacement;
-    }
-
-    int getPlayerId()
-    {
-        return playerId;
     }
 
 }

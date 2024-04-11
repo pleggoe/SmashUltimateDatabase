@@ -1,0 +1,8 @@
+player1,3,2,2/8
+player2,5,1,1/8
+player3,3,2,3/8
+player4,0,2,6/8
+player5,1,2,5/8
+player6,1,2,5/8
+player7,0,2,6/8
+player8,2,2,4/8

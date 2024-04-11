@@ -1,17 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-/*
- * Peyton Leggoe
- * CEN 3042C-26663
- * 2/19/2024
- * SmashUltimateDatabase.java
+/**
+ * Peyton Leggoe,
+ * CEN 3042C-26663,
+ * 2/19/2024.
  * This class houses the main method for the program. This program reads in the existing database
  * of competitors from a .txt file formatted as "playerTag,wins,losses,lastPlacement" and allows the user to remove a competitor
  * either by their tag or ID, update a player's data, generate current power rankings, and show all competitors in the database.
  */
 public class SmashUltimateDatabase {
-
 
     public static void main(String[] args) throws IOException{
         String fileName;

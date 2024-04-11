@@ -3,6 +3,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+/**
+ * Peyton Leggoe,
+ * CEN 3042C-26663,
+ * 3/24/2024.
+ * This class houses the GUI for the Smash Ultimate Database.
+ */
 public class dataBaseGui extends JFrame{
 
     competitorDataBase instance;
@@ -20,6 +26,9 @@ public class dataBaseGui extends JFrame{
     private JTextArea prOutput;
     private JButton exit;
 
+    /**
+     * Provides the functionality for each button, and text boxes for the GUI.
+     */
     public dataBaseGui() {
         competitorDataBase instance = new competitorDataBase();
 
@@ -133,7 +142,7 @@ public class dataBaseGui extends JFrame{
                             JOptionPane.showMessageDialog(null, "Please enter a number");
                             return;
                         }
-                        lastPlacement = JOptionPane.showInputDialog(null, "Enter updated player last placemnet");
+                        lastPlacement = JOptionPane.showInputDialog(null, "Enter updated player last placement");
                         updatedPlayer = new competitor(playerTag, wins, losses, lastPlacement);
                         instance.updatePlayer(tagToUpdate, updatedPlayer);
                         dataBaseOutput.setText(instance.printGUIPlayers());

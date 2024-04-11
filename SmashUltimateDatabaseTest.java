@@ -8,7 +8,13 @@ import java.util.*;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Peyton Leggoe,
+ * CEN 3042C-26663,
+ * 2/28/2024.
+ * This class contains all test cases for the Smash Ultimate Database. Each test case is designed to ensure
+ * functionality using the test case results1.txt.
+ */
 class SmashUltimateDatabaseTest {
 
     competitor testPlayer;

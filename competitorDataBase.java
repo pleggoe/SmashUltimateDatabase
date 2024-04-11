@@ -3,14 +3,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Peyton Leggoe, CEN 3042C-26663, 2/19/2024.
+ * The class competitorDataBase contains the ArrayList of competitor and acts as the database
+ * for the SmashUltimateDataBase program. The methods included in this class are used to help manipulate and
+ * view the database.
+ */
 public class competitorDataBase {
     ArrayList<competitor> players;
 
-    /*
-     * method: readPlayers
-     * parameters: none
-     * return: none
-     * purpose: reads in user given .txt file and creates competitor objects for ArrayList players
+    /**
+     * Reads in user given .txt file and creates competitor objects for ArrayList players
+     * @param fileName Name of the file that will be read in
+     * @throws IOException
      */
     void readPlayers(String fileName) throws IOException
     {
@@ -70,11 +75,8 @@ public class competitorDataBase {
         fileIn.close();
     }
 
-    /*
-     * method: printPlayers
-     * parameters: none
-     * return: none
-     * purpose: Prints current database of all players showing all data members for each player
+    /**
+     * Prints current database of all players showing all data members for each player
      */
     void printPlayers()
     {
@@ -88,6 +90,10 @@ public class competitorDataBase {
         System.out.println("Done!");
     }
 
+    /**
+     * Generates a GUI friendly version of the database
+     * @return Returns a String retString which contains the printed database
+     */
     String printGUIPlayers()
     {
         String retString = "";
@@ -99,11 +105,9 @@ public class competitorDataBase {
     }
 
 
-    /*
-     * method: removeCompetitorPlayerTag
-     * parameters: none
-     * return: none
-     * purpose: removes player from database based on player's tag
+    /**
+     * Removes player from database based on player's tag
+     * @param playerRemoveTag String of the player tag to be removed from the database
      */
     void removeCompetitorPlayerTag(String playerRemoveTag)
     {
@@ -120,11 +124,9 @@ public class competitorDataBase {
         System.out.println("Player Tag not found\n");
     }
 
-    /*
-     * method: removeCompetitorPlayerId
-     * parameters: none
-     * return: none
-     * purpose: removes player from database based on player's ID
+    /**
+     * Removes player from database based on player's ID
+     * @param playerRemoveId ID of the player to be removed
      */
     void removeCompetitorPlayerId(int playerRemoveId)
     {
@@ -141,12 +143,11 @@ public class competitorDataBase {
         System.out.println("Player ID not found\n");
     }
 
-    /*
-     * method: updatePlayer
-     * parameters: none
-     * return: none
-     * purpose: updates an existing player in the database, will ask user for data members
+    /**
+     * Updates an existing player in the database, will ask user for data members
      * playerTag, wins, losses, and lastPlacement
+     * @param playerToUpdate
+     * @param updatedCompetitor
      */
     void updatePlayer(String playerToUpdate, competitor updatedCompetitor)
     {
@@ -161,11 +162,10 @@ public class competitorDataBase {
         }
     }
 
-    /*
-     * method: generatePowerRankings
-     * parameters: none
-     * return: none
-     * purpose: Generates current power rankings based off of win/loss ratio
+    /**
+     * Generates current power rankings based off of win/loss ratio
+     * @return Returns an ArrayList of competitor so the power rankings can
+     * be read or manipulated
      */
     ArrayList<competitor> generatePowerRankings()
     {
@@ -187,6 +187,11 @@ public class competitorDataBase {
         return powerRanking;
     }
 
+    /**
+     * Generates current power rankings based off of win/loss ratio for GUI friendly
+     * version
+     * @return Returns the printed version of the powerRanking ArrayList as a String
+     */
     String generatePowerRankingsGUI()
     {
         ArrayList<competitor> powerRanking = players;
@@ -213,3 +218,4 @@ public class competitorDataBase {
         return retString;
     }
 }
+
